@@ -9,21 +9,36 @@ const username = computed(() => userStore.userName);
 
 const router = useRouter()
 
-const menuClick = (key: string) => {
+const menuClick = ({key} : any ) => {
   router.push(key)
 }
+
+const menu = [
+  {
+    key: '0',
+    disabled: true,
+    label: '燎原OJ'
+  },
+  {
+    key: '/',
+    label: '主页'
+  },
+  {
+    key: '/question',
+    label: '题目'
+  },
+  {
+    key: '/addQuestion',
+    label: '贡献题目'
+  }
+]
 
 </script>
 
 <template>
-  <div class="flex justify-between w-9/12">
-    <a-menu mode="horizontal" theme="light" :default-selected-keys="['/']" @menu-item-click="(key: string) => menuClick(key)">
-      <a-menu-item key="0" :style="{ padding: 0, marginRight: '10px' }" disabled>
-        <div>OJ系统</div>
-      </a-menu-item>
-      <a-menu-item key="/">主页</a-menu-item>
-      <a-menu-item key="/question">题目</a-menu-item>
-      <a-menu-item key="/party">广场</a-menu-item>
+  <div class="flex justify-between w-10/12">
+    <a-menu class="menu" :items="menu" mode="horizontal"  :default-selected-keys="['/']" @click="menuClick">
+
     </a-menu>
     <div class="mr-4">
       <strong class=" text-sky-600" v-if="username">{{ username }}</strong>
@@ -38,11 +53,7 @@ const menuClick = (key: string) => {
 </template>
 
 <style scoped>
-:deep(.login-btn) {
-  color: #8c9196;
-}
-
-:deep(.login-btn):hover {
-  color: #1890ff;
+.menu {
+  background-color: rgba(0, 0, 0, 0);
 }
 </style>

@@ -1,12 +1,5 @@
 import { Get, Post } from "../request";
 
-
-interface Register {
-  userAccount: string
-  userPassword: string
-  checkPassword: string
-}
-
 /**
  * 注册
  */

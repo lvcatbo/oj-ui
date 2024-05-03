@@ -3,20 +3,25 @@ import { useUserStore } from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
-       path: '/',
-       name: 'Index',
-       component: () => import ('@/layout/DefaultLayout.vue'),
-       meta: {
-           title: '首页',
-           keepAlive:false
-       },
-       children: [
-           {
-               path: '',
-               name: 'Home',
-               component: () => import('@/views/index.vue')
-           },
-       ]
+    path: '/',
+    name: 'Index',
+    component: () => import ('@/layout/DefaultLayout.vue'),
+    meta: {
+      title: '首页',
+      keepAlive:false
+    },
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('@/views/index.vue')
+      },
+      {
+        path: 'addQuestion',
+        name: 'AddQuestion',
+        component: () => import('@/views/addQuestion/index.vue')
+      }
+    ]
    },
    {
     path: '/login',
