@@ -8,7 +8,7 @@ const vditor = ref<Vditor | null>(null);
 
 const value = defineModel({type: String, default: ''});
 
-const props = defineProps<{options:EditorOptions}>();
+const props = defineProps<{id: string, options:EditorOptions}>();
 
 defineExpose({vditor});
 
@@ -21,7 +21,7 @@ const emit = defineEmits<{
 
 onMounted(() => {
   Object.assign(defaultOptions, props.options);
-  vditor.value = new Vditor('vditor', {
+  vditor.value = new Vditor(props.id, {
     ...defaultOptions,
     after: () => {
       vditor.value!.insertValue(value.value);
@@ -46,7 +46,7 @@ onMounted(() => {
 const defaultOptions: EditorOptions = {
   height: '100%',
   width: '100%',
-  mode: "sv",
+  mode: "ir",
   preview: {
     actions:[]
   },
@@ -67,7 +67,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="m-auto">
-    <div id="vditor"></div>
+  <div class="block m-auto overflow-y-auto">
+    <div :id="props.id"></div>
   </div>
 </template>
