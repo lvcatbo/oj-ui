@@ -12,7 +12,7 @@ interface Response<T> {
   data: T
 }
 
-type Fn = (data: Response<any>) => unknown
+type ClearFn<T> = (data: Response<T>) => Response<T>
 
 axios.defaults.baseURL = '/api';
 
@@ -40,14 +40,14 @@ axios.interceptors.response.use(res => {
 export const Get = <T>(
   url:string,
   params: IAnyObj = {},
-  clearFn?: Fn
+  clearFn?: ClearFn<T>
 ): Promise<[any, Response<T> | undefined]> => {
   return new Promise((resolve) => {
     axios.get(url, { params })
     .then(result => {
       let res: Response<T>;
       if (clearFn !== undefined) {
-        res = clearFn(result.data) as unknown as Response<T>;
+        res = clearFn(result.data);
       } else {
         res = result.data as Response<T>;
       }
@@ -62,13 +62,13 @@ export const Get = <T>(
 export const Post = <T>(
   url: string,
   data: IAnyObj = {},
-  clearFn?: Fn
+  clearFn?: ClearFn<T>
 ): Promise<[any, Response<T> | undefined]> => {
   return new Promise(resolve => {
     axios.post(url,data)
     .then(result => {
       if(clearFn !== undefined) {
-        resolve([null, clearFn(result.data) as unknown as Response<T>])
+        resolve([null, clearFn(result.data)])
       } else {
         resolve([null, result.data as Response<T>])
       }
