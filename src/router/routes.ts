@@ -14,13 +14,18 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Home',
-        component: () => import('@/views/index.vue')
+        component: () => import('@/views/questionList/index.vue')
       },
       {
         path: 'addQuestion',
         name: 'AddQuestion',
         component: () => import('@/views/addQuestion/index.vue')
-      }
+      },
+      {
+        path: 'updateQuestion/:id',
+        name: 'updateQuestion',
+        component: () => import('@/views/addQuestion/index.vue')
+      },
     ]
    },
    {

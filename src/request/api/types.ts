@@ -4,23 +4,19 @@ interface Register {
   checkPassword: string
 }
 
+type AddQuestionParams = Question
 
-interface AddQuestionParams {
-  title: string
-  tags: string[]
-  content: string
-  answer: string
-  judgeCase: [
-    {
-      input: string
-      output: string
-    }
-  ]
-  judgeConfig: {
-    memoryLimit: number
-    stackLimit: number
-    timeLimit: number
-  }
+interface QuestionParams {
+  id?: number;
+  title?: string;
+  tags?: string[];
+  userId?: number;
+  sortField?: string;
+  sortOrder?: string;
 }
+
+type QueryQuestionParams = PageNation & QuestionParams
+
+
 
 

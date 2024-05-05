@@ -24,7 +24,7 @@ onMounted(() => {
   vditor.value = new Vditor(props.id, {
     ...defaultOptions,
     after: () => {
-      vditor.value!.insertValue(value.value);
+      vditor.value!.setValue(value.value);
     },
     input: val => {
       emit('input', val);

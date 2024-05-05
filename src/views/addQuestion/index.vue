@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { createVNode, onBeforeMount, ref } from 'vue';
 import MdEditer from '@/components/MdEditer.vue';
 import api from '@/request';
-import { message } from 'ant-design-vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { App } from 'ant-design-vue'
+const { message, modal } = App.useApp();
 
 const router = useRouter();
+const route = useRoute();
 
-const form = ref<AddQuestionParams>({
+const form = ref<Question>({
   title: '',
   content: '',
   tags: [],
@@ -36,6 +38,7 @@ const tagOptions = [
   { value: '困难', label: '困难' }
 ]
 
+
 const addCase = () => {
   form.value.judgeCase.unshift({
     input: '',
@@ -44,13 +47,57 @@ const addCase = () => {
 }
 
 const submit = async () => {
-  debugger
-  const [e,r] = await api.addQuestion(form.value);
-  if(!e && r) {
-    message.success('添加成功');
-    router.push('/')
+  if (form.value.id === undefined) {
+    const [e, r] = await api.addQuestion(form.value);
+    if (!e && r) {
+      message.success('添加成功');
+      router.push('/')
+    }
+  } else {
+    const [e, r] = await api.updateQuestion(form.value);
+    if (!e && r) {
+      message.success('更新成功');
+    }
   }
 }
+
+const handleDelete = () => {
+  modal.confirm({
+    title: '确定要删除本题目吗',
+    content: createVNode('div', { style: 'color:red;' }, '删除后不可恢复哦'),
+    async onOk() {
+      if (form.value.id) {
+        const [err, res] = await api.deleteQuestion(form.value.id);
+        if (!err) {
+          message.success('删除成功');
+          router.push('/')
+        }
+      }
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+    class: 'test',
+  });
+}
+
+onBeforeMount(async () => {
+  const id = route.params.id as string;
+  if (id) {
+    const [e, res] = await api.getQuestionById(id);
+    debugger
+    if (!e && res) {
+      const val = res.data;
+      form.value.id = val.id;
+      form.value.title = val.title;
+      form.value.tags = val.tags;
+      form.value.content = val.content;
+      form.value.answer = val.answer;
+      form.value.judgeCase = val.judgeCase;
+      form.value.judgeConfig = val.judgeConfig;
+    }
+  }
+})
 
 
 
@@ -75,7 +122,7 @@ const submit = async () => {
           </a-form-item>
           <a-form-item>
             <a-button type="primary" html-type="submit" class="mr-4">提交</a-button>
-            <a-button danger>删除</a-button>
+            <a-button danger @click="handleDelete">删除</a-button>
           </a-form-item>
         </div>
         <a-row :gutter="[10, 10]">
@@ -97,12 +144,14 @@ const submit = async () => {
                 </template>
                 添加用例
               </a-button>
-              <a-card v-for="(item, index) in form.judgeCase" :key="index" size="small" :title="`用例${form.judgeCase.length-index}`"  class="case-card">
-                <template #extra><a-button type="text" danger @click="form.judgeCase.splice(index,1)">
-                  <template #icon>
-                    <span class="icon-[ant-design--close-outlined]" style="width: 1.2em; height: 1.2em; color: palevioletred;"></span>
-                  </template>
-                </a-button></template>
+              <a-card v-for="(item, index) in form.judgeCase" :key="index" size="small"
+                :title="`用例${form.judgeCase.length - index}`" class="case-card">
+                <template #extra><a-button type="text" danger @click="form.judgeCase.splice(index, 1)">
+                    <template #icon>
+                      <span class="icon-[ant-design--close-outlined]"
+                        style="width: 1.2em; height: 1.2em; color: palevioletred;"></span>
+                    </template>
+                  </a-button></template>
                 <span>输入：</span>
                 <a-textarea autoSize v-model:value="item.input" addon-before="输入"></a-textarea>
                 <span>输出：</span>
@@ -121,6 +170,7 @@ const submit = async () => {
   margin-bottom: 10px;
   background-color: aliceblue;
 }
+
 :deep(.case-card .ant-card-body) {
   padding: 10px 5px;
 }
