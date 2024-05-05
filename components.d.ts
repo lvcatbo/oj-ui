@@ -31,6 +31,7 @@ declare module 'vue' {
     ATable: typeof import('ant-design-vue/es')['Table']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    CodeEditor: typeof import('./src/components/CodeEditor.vue')['default']
     Header: typeof import('./src/components/layout/Header.vue')['default']
     MdEditer: typeof import('./src/components/MdEditer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
