@@ -9,16 +9,16 @@ export const addQuestion = (data: AddQuestionParams) => {
  * @param queryParams 分页查询参数
  */
 export const getQuestionList = (queryParams: QueryQuestionParams) => {
-  return Post<Page<Question>>('/question/list/page', {...queryParams}, (res) => {
+  return Post<Page<Question>>('/question/list/page/vo', {...queryParams}, (res) => {
     let data = res.data;
     queryParams.current = data.current;
     queryParams.pageSize = data.size;
     queryParams.total = data.total;
-    data.records?.forEach(item => {
-      item.tags = JSON.parse(item.tags as unknown as string);
-      item.judgeConfig = JSON.parse(item.judgeConfig as unknown as string);
-      item.judgeCase = JSON.parse(item.judgeCase as unknown as string);
-    })
+    // data.records?.forEach(item => {
+    //   item.tags = JSON.parse(item.tags as unknown as string);
+    //   item.judgeConfig = JSON.parse(item.judgeConfig as unknown as string);
+    //   item.judgeCase = JSON.parse(item.judgeCase as unknown as string);
+    // })
     return res;
   });
 }

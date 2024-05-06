@@ -24,6 +24,7 @@ export const handleNetworkError = (errStatus: number) => {
               break
           case 401:
               errMessage = '未授权，请重新登录'
+              location.href = '/login'
               break
           case 403:
               errMessage = '拒绝访问'
@@ -70,6 +71,12 @@ export const handleNetworkError = (errStatus: number) => {
  * @param res
  */
 export const handleGeneralError = (res: {code: number, data:any, message: string}) => {
+  // 登录失效
+  if (res.code === 401) {
+      message.error('登录失效，请重新登录')
+      window.location.href = '/login'
+      throw Error
+  }
   if (res.code != 0) {
       message.error(res.message)
       throw Error

@@ -20,11 +20,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": ".", 
-    "paths": { 
+    "baseUrl": ".",
+    "paths": {
       "@/*": ["src/*"]
-    }
+    },
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "files": ["./router.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue,"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

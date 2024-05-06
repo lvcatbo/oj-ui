@@ -8,6 +8,7 @@ const useUserStore = defineStore(
     id: undefined,
     userName: undefined,
     userAvatar: undefined,
+    userRole: []
   }
   ),
 
@@ -20,10 +21,21 @@ const useUserStore = defineStore(
         this.id = r.data.id;
         this.userName = r.data.userName;
         this.userAvatar = r.data.userAvatar;
-        localStorage.setItem('userId', r.data.id?.toString() || '');
+        this.userRole = r.data.userRole;
         return Promise.resolve(r.data);
       } else {
         return Promise.reject('未知错误')
+      }
+    },
+
+    async getUser() {
+      const [e,r] = await api.getCurrentUser();
+      if(!e && r) {
+        this.id = r.data.id;
+        this.userName = r.data.userName;
+        this.userAvatar = r.data.userAvatar;
+        this.userRole = r.data.userRole;
+        return Promise.resolve(r.data);
       }
     }
   }

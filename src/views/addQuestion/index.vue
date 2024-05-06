@@ -122,7 +122,7 @@ onBeforeMount(async () => {
           </a-form-item>
           <a-form-item>
             <a-button type="primary" html-type="submit" class="mr-4">提交</a-button>
-            <a-button danger @click="handleDelete">删除</a-button>
+            <a-button danger @click="handleDelete" v-if="form.id">删除</a-button>
           </a-form-item>
         </div>
         <a-row :gutter="[10, 10]">

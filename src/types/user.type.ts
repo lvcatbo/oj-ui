@@ -2,7 +2,8 @@ interface User {
   id?: number
   userName?: string
   userAvatar?: string
-  age?: number
+  age?: number,
+  userRole?: RoleType[]
 }
 
-type RoleType = '' | '*' | 'admin' | 'user';
+type RoleType = 'admin' | 'user';

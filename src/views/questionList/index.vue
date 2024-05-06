@@ -2,6 +2,7 @@
 import { createVNode, onMounted, ref } from 'vue';
 import api from '@/request';
 import { App } from 'ant-design-vue'
+import { useUserStore } from '@/store';
 const { message, modal } = App.useApp();
 
 
@@ -30,12 +31,17 @@ const columns = ref([
     key: 'acceptedNum',
     align: 'center',
   },
-  {
+]);
+
+const useUser = useUserStore();
+if (useUser.userRole?.some((role) => role === 'admin')) {
+  columns.value.push({
     title: '操作',
+    dataIndex: 'action',
     key: 'action',
     align: 'center',
-  },
-]);
+  })
+}
 
 
 const colors = ['processing', 'volcano', 'geekblue', 'purple', 'green', 'red', 'orange', 'gold'];

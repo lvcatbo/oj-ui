@@ -19,11 +19,18 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'addQuestion',
         name: 'AddQuestion',
+        meta: {
+          requiresAuth: true,
+        },
         component: () => import('@/views/addQuestion/index.vue')
       },
       {
         path: 'updateQuestion/:id',
         name: 'updateQuestion',
+        meta: {
+          requiresAuth: true,
+          roles: ['admin']
+        },
         component: () => import('@/views/addQuestion/index.vue')
       },
     ]
@@ -46,6 +53,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Register',
     component: () => import('@/views/register.vue'),
    },
+   {
+    path: '/403',
+    name: '403',
+    component: () => import('@/views/error/403.vue'),
+   }
 ]
 
 export default routes;
