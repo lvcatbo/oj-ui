@@ -3,6 +3,7 @@ import { createVNode, onMounted, ref } from 'vue';
 import api from '@/request';
 import { App } from 'ant-design-vue'
 import { useUserStore } from '@/store';
+import router from '@/router';
 const { message, modal } = App.useApp();
 
 
@@ -66,7 +67,7 @@ const getQuestionList = async () => {
 }
 
 const toPlayground = (id: number) => {
-  console.log(id);
+  router.push(`/problems/${id}`);
 }
 
 const search = () => {

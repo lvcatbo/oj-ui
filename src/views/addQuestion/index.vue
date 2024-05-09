@@ -46,15 +46,20 @@ const addCase = () => {
   })
 }
 
+const editor = ref<any>(null);
+const editor2 = ref<any>(null);
+
 const submit = async () => {
+  const submitForm = {...form.value};
+  submitForm.content = editor.value.vditor.getHTML();
   if (form.value.id === undefined) {
-    const [e, r] = await api.addQuestion(form.value);
+    const [e, r] = await api.addQuestion(submitForm);
     if (!e && r) {
       message.success('添加成功');
       router.push('/')
     }
   } else {
-    const [e, r] = await api.updateQuestion(form.value);
+    const [e, r] = await api.updateQuestion(submitForm);
     if (!e && r) {
       message.success('更新成功');
     }
@@ -128,11 +133,11 @@ onBeforeMount(async () => {
         <a-row :gutter="[10, 10]">
           <a-col :xl="10" :lg="24" class="w-full overflow-auto resize-x">
             <h2 class="p-1 font-bold rounded bg-slate-200">编辑题目</h2>
-            <MdEditer id="v1" v-model="form.content" :options="{ height: '500px' }"></MdEditer>
+            <MdEditer ref="editor" id="v1" v-model="form.content" :options="{ height: '500px' }"></MdEditer>
           </a-col>
           <a-col :xl="10" :lg="24">
             <h2 class="p-1 font-bold rounded bg-slate-200">编辑题解</h2>
-            <MdEditer id="v2" v-model="form.answer" :options="{ height: '500px' }"></MdEditer>
+            <MdEditer ref="editor2" id="v2" v-model="form.answer" :options="{ height: '500px' }"></MdEditer>
           </a-col>
           <a-col :xl="4" :lg="24">
             <h2 class="p-1 font-bold rounded bg-slate-200">测试用例</h2>

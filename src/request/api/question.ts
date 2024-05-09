@@ -25,13 +25,7 @@ export const getQuestionList = (queryParams: QueryQuestionParams) => {
 
 /** 通过id查询题目 */
 export const getQuestionById = (id: string) => {
-  return Get<Question>('/question/get', {id}, (res) => {
-    let data = res.data;
-    data.tags = JSON.parse(data.tags as unknown as string);
-    data.judgeConfig = JSON.parse(data.judgeConfig as unknown as string);
-    data.judgeCase = JSON.parse(data.judgeCase as unknown as string);
-    return res;
-  });
+  return Get<QuestionInfo>('/question/get/vo', {id});
 }
 
 /** 修改題目 */

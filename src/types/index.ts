@@ -4,7 +4,7 @@ interface Question {
   title: string
   tags: string[]
   content: string
-  answer: string
+  answer?: string
   judgeCase: {
     input: string
     output: string
