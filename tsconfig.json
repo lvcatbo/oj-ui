@@ -26,6 +26,10 @@
     },
   },
   "files": ["./router.d.ts"],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue,"],
+  "include": [
+    "src/**/*.ts", "src/**/*.tsx", "src/**/*.vue,",
+    "node_modules/monaco-editor/esm/**/*.ts",
+    "src/plugins/**/*.ts",
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
