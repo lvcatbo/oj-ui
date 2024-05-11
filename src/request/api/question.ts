@@ -38,11 +38,16 @@ export const deleteQuestion = (id: string) => {
   return Post<number>('/question/delete', {id});
 }
 
+export const submitAnswer = (data: AnswerParams) => {
+  return Post <Number>('/question/question_submit/do', {...data})
+};
+
 export default {
   addQuestion,
   getQuestionList,
   getQuestionById,
   updateQuestion,
   deleteQuestion,
+  submitAnswer,
 }
 

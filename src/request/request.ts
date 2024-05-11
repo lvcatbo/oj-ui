@@ -1,9 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { handleChangeRequestHeader, handleNetworkError, handleGeneralError } from './tools';
 
-interface IAnyObj {
-  [index: string]: unknown
-}
 
 
 interface Response<T> {

@@ -1,11 +1,26 @@
 <script setup lang="ts">
 
-const props = defineProps({
-  lang: {
-    type: String,
-    default: 'TypeScript'
+const lang = defineModel<string>('lang',{default: 'TypeScript'});
+const code = defineModel<string>({default: ''});
+
+const changeLang = (item: any) => {
+  lang.value = item.key;
+}
+
+const languages = [
+  {
+    key: 'javascript',
+    label: 'javascript'
+  },
+  {
+    key: 'html',
+    label: 'html'
+  },
+  {
+    key: 'java',
+    label: 'java'
   }
-});
+]
 
 </script>
 
@@ -18,21 +33,11 @@ const props = defineProps({
           <span class="icon-[ant-design--down-outlined]"></span>
         </a>
         <template #overlay>
-          <a-menu>
-            <a-menu-item>
-              <a href="javascript:;">TypeScript</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">Java</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">C++</a>
-            </a-menu-item>
-          </a-menu>
+          <a-menu @click="changeLang" :items="languages" />
         </template>
       </a-dropdown>
     </div>
-    <code-editor></code-editor>
+    <code-editor v-model="code" :language="lang"></code-editor>
   </div>
 </template>
 

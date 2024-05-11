@@ -6,12 +6,16 @@ import CodePanel from './CodePanel.vue'
 import 'splitpanes/dist/splitpanes.css'
 import { onBeforeMount, ref } from 'vue';
 import Api from '@/request'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { App } from 'ant-design-vue';
+
+const { message } = App.useApp();
 
 const problemInfo = ref<QuestionInfo>();
 
 
 const route = useRoute();
+const router = useRouter();
 
 onBeforeMount(async () => {
   const [e,r] = await Api.getQuestionById(route.params.name as string);
@@ -19,6 +23,20 @@ onBeforeMount(async () => {
     problemInfo.value = r.data;
   }
 })
+
+const anwserForm = ref<AnswerParams> ({
+  language: 'typescript',
+  code: '',
+  questionId: route.params.name as string
+})
+
+const submit = async () => {
+  const [e,r] = await Api.submitAnswer(anwserForm.value);
+  if(!e && r) {
+    message.success('提交成功');
+    router.push('/');
+  }
+}
 
 </script>
 
@@ -63,7 +81,7 @@ onBeforeMount(async () => {
             <span>运行</span>
           </div>
           <div class="w-[2px] h-full flex-none bg-[#F0F0F0]"></div>
-          <div class="flex gap-2 items-center px-2 cursor-pointer hover:bg-[#00000005] text-green-500">
+          <div class="flex gap-2 items-center px-2 cursor-pointer hover:bg-[#00000005] text-green-500" @click="submit">
             <span class="icon-[ant-design--cloud-upload-outlined]"></span>
             <span>提交</span>
           </div>
@@ -79,7 +97,7 @@ onBeforeMount(async () => {
         <Pane size="50">
           <Splitpanes horizontal>
             <Pane size="80">
-              <code-panel></code-panel>
+              <code-panel v-model:lang="anwserForm.language" v-model="anwserForm.code"></code-panel>
             </Pane>
             <Pane size="20" min-size="5">3</Pane>
           </Splitpanes>
